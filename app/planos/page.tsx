@@ -275,7 +275,7 @@ export default function PlanosPage() {
                 key={plano.nome}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                
                 {...cardHover}
                 className={`relative rounded-[32px] border bg-white p-8 shadow-sm transition ${
                   planoAtual

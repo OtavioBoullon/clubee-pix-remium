@@ -460,7 +460,7 @@ export default function DashboardPage() {
                   <motion.div
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: 0.06 }}
+                    
                     {...cardHover}
                     className="rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-gray-100"
                   >
@@ -492,7 +492,7 @@ export default function DashboardPage() {
                     <motion.div
                       initial={{ opacity: 0, y: 18 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: 0.1 }}
+                      
                       {...cardHover}
                       className="rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-gray-100"
                     >
@@ -509,7 +509,7 @@ export default function DashboardPage() {
                     <motion.div
                       initial={{ opacity: 0, y: 18 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: 0.14 }}
+                      
                       {...cardHover}
                       className="rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-gray-100"
                     >
@@ -1037,7 +1037,7 @@ export default function DashboardPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: 0.06 }}
+                  
                   {...cardHover}
                   className="rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-gray-100"
                 >

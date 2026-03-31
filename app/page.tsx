@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 
 type PlanKey = 'essencial' | 'pro' | 'premium';
 
@@ -410,21 +410,21 @@ export default function Home() {
     [selectedPlan]
   );
 
-  const sectionMotion = {
+  const sectionMotion: Variants = {
     hidden: { opacity: 0, y: 26 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.55, ease: 'easeOut' },
+      transition: { duration: 0.55, ease: 'easeOut' as const },
     },
   };
 
-  const cardMotion = {
+  const cardMotion: Variants = {
     hidden: { opacity: 0, y: 18 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.45, ease: 'easeOut' },
+      transition: { duration: 0.45, ease: 'easeOut' as const },
     },
   };
 
