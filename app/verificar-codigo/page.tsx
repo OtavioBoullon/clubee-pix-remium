@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,7 +15,7 @@ import {
   Clock3,
 } from 'lucide-react';
 
-export default function VerificarCodigoPage() {
+function VerificarCodigoContent() {
   const router = useRouter();
   const params = useSearchParams();
   const email = params.get('email') || 'seu email';
@@ -43,17 +43,14 @@ export default function VerificarCodigoPage() {
   }, [tempo]);
 
   const codigoCompleto = codigo.join('');
-  const podeVerificar = codigoCompleto.length === 6 && /^\d{6}$/.test(codigoCompleto);
+  const podeVerificar =
+    codigoCompleto.length === 6 && /^\d{6}$/.test(codigoCompleto);
 
   const verificarCodigo = async () => {
-    // Aqui depois entra backend real
-    // await fetch('/api/verify-code', { ... })
     return true;
   };
 
   const reenviarCodigo = async () => {
-    // Aqui depois entra backend real
-    // await fetch('/api/resend-code', { ... })
     return true;
   };
 
@@ -127,7 +124,7 @@ export default function VerificarCodigoPage() {
       setTimeout(() => {
         router.push('/nova-senha');
       }, 700);
-    } catch (e) {
+    } catch {
       setErro('Não foi possível validar o código agora. Tente novamente.');
       setLoading(false);
       return;
@@ -142,7 +139,7 @@ export default function VerificarCodigoPage() {
       setErro('');
       setReenviado(true);
       inputsRef.current[0]?.focus();
-    } catch (e) {
+    } catch {
       setErro('Não foi possível reenviar o código agora.');
     }
   };
@@ -151,7 +148,6 @@ export default function VerificarCodigoPage() {
     <div className="min-h-screen bg-gradient-to-b from-[#f6f8fc] to-white px-6 py-12">
       <div className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl items-center justify-center">
         <div className="grid w-full items-center gap-10 lg:grid-cols-[1fr_430px]">
-          {/* LADO ESQUERDO */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -211,13 +207,11 @@ export default function VerificarCodigoPage() {
             </div>
           </motion.div>
 
-          {/* CARD DIREITO */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             className="w-full max-w-md"
           >
-            {/* MOBILE BACK */}
             <div className="mb-6 text-center lg:hidden">
               <Link
                 href="/esqueci-senha"
@@ -229,7 +223,6 @@ export default function VerificarCodigoPage() {
             </div>
 
             <div className="rounded-[32px] border border-gray-200 bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-              {/* HEADER */}
               <div className="mb-8 text-center">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg">
                   <KeyRound className="h-8 w-8 text-white" />
@@ -244,7 +237,6 @@ export default function VerificarCodigoPage() {
                 </p>
               </div>
 
-              {/* INPUTS */}
               <div
                 className="mb-4 flex justify-between gap-3"
                 onPaste={handlePaste}
@@ -270,7 +262,6 @@ export default function VerificarCodigoPage() {
                 ))}
               </div>
 
-              {/* STATUS */}
               <AnimatePresence>
                 {erro && (
                   <motion.div
@@ -297,7 +288,6 @@ export default function VerificarCodigoPage() {
                 )}
               </AnimatePresence>
 
-              {/* BOTÃO */}
               <button
                 onClick={handleVerificar}
                 disabled={loading}
@@ -307,7 +297,6 @@ export default function VerificarCodigoPage() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
 
-              {/* REENVIAR */}
               <div className="mt-6 text-center text-sm text-gray-500">
                 {tempo > 0 ? (
                   <span>Reenviar código em {tempo}s</span>
@@ -322,7 +311,6 @@ export default function VerificarCodigoPage() {
                 )}
               </div>
 
-              {/* INFO */}
               <div className="mt-8 flex gap-3 rounded-2xl bg-gray-50 p-4 text-sm text-gray-600">
                 <Shield className="mt-1 h-5 w-5 text-blue-600" />
                 <p>
@@ -335,5 +323,33 @@ export default function VerificarCodigoPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#f6f8fc] to-white px-6 py-12">
+      <div className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl items-center justify-center">
+        <div className="w-full max-w-md rounded-[32px] border border-gray-200 bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg">
+              <KeyRound className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Verificação</h1>
+            <p className="mt-2 text-sm leading-6 text-gray-600">
+              Carregando dados de verificação...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function VerificarCodigoPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <VerificarCodigoContent />
+    </Suspense>
   );
 }
